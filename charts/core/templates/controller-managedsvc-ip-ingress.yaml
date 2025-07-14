@@ -1,0 +1,53 @@
+{{- if .Values.controller.federation.managedsvc.ingress.enabled }}
+{{- if (semverCompare ">=1.19-0" (substr 1 -1 .Capabilities.KubeVersion.GitVersion)) }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: neuvector-managedsvc-ingress-ip
+  namespace: {{ .Release.Namespace }}
+{{- with .Values.controller.federation.managedsvc.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+  labels:
+    chart: {{ template "neuvector.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+{{- if .Values.controller.federation.managedsvc.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.controller.federation.managedsvc.ingress.ingressClassName | quote }}
+{{- end }}
+  rules:
+  - http:
+      paths:
+      - path: {{ .Values.controller.federation.managedsvc.ingress.path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: neuvector-svc-controller-fed-managed
+            port:
+              number: 10443
+{{- else }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: neuvector-managedsvc-ingress-ip
+  namespace: {{ .Release.Namespace }}
+{{- with .Values.controller.federation.managedsvc.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+  labels:
+    chart: {{ template "neuvector.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  rules:
+  - http:
+      paths:
+      - path: {{ .Values.controller.federation.managedsvc.ingress.path }}
+        backend:
+          serviceName: neuvector-svc-controller-fed-managed
+          servicePort: 10443
+{{- end }}
+{{- end }}

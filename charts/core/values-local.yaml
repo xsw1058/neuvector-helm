@@ -5,20 +5,20 @@ exporter:
   # If false, exporter will not be installed
   enabled: true
   image:
-    repository: mcd-public/neuvector/prometheus-exporter
+    repository: registry.cn-hangzhou.aliyuncs.com/xsw1058/prometheus-exporter
     imagePullPolicy: IfNotPresent
     tag: mcd20250710
 
   pass_store_id: ${PAAS_STORE_ID}
-  ctrl_join_addr_prefix: "cn-wukong-"
-  ctrl_join_addr_suffix: ".mcd.store"
-  ctrl_join_addr: 'cn-wukong-rke-uat01.mcd.cloud'
+  ctrl_join_addr_prefix: ""
+  ctrl_join_addr_suffix: ""
+  ctrl_join_addr: 'u2204b.xsw.com'
   # env: []
   env: 
   - name: JOIN_TOKEN
     value: eyJzIjoidTIyMDRhLnhzdy5jb20iLCJwIjo0NDMsInQiOiJFWWxqRk0vbDJpellHRmtoTklERXkxc1MwQklJcnRKdmpERUNWQjB5UUE5SFRIYjI5UzNXRVFabFdLVHJ1eDQ9In0=
   - name: JOIN_TOKEN_URL
-    value: https://neuvector-wk-test.mcdchina.net/join_token
+    value: http://u2204a.xsw.com/join_token
   - name: CTRL_USERNAME
     value: admin
   - name: CTRL_JOIN_PORT
@@ -42,14 +42,14 @@ exporter:
       # service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "apps-subnet"
 
   grafanaDashboard:
-    enabled: false
+    enabled: true
     namespace: "" # Release namespace, if empty
     labels: {}
     # annotations: {}
       # k8s-sidecar-target-directory: /tmp/dashboards/neuvector
 
   serviceMonitor:
-    enabled: false
+    enabled: true
     # labels for the ServiceMonitor.
     labels: {}
     # annotations for the ServiceMonitor.
@@ -72,8 +72,8 @@ exporter:
 
 openshift: false
 
-registry: harbor.mcdchina.net
-tag: 5.4.4
+registry: docker.io
+tag: 5.4.5
 oem:
 imagePullSecrets:
 psp: false
@@ -121,7 +121,7 @@ global: # required for rancher authentication (https://<Rancher_URL>/)
     imagePullSecrets:
     image:
       digest: ""
-      repository: docker-hub/neuvector/neuvector-csp-adapter
+      repository: neuvector/neuvector-csp-adapter
       tag: latest
       imagePullPolicy: IfNotPresent
 
@@ -149,7 +149,7 @@ controller:
       maxSurge: 1
       maxUnavailable: 0
   image:
-    repository: docker-hub/neuvector/controller
+    repository: neuvector/controller
     imagePullPolicy: IfNotPresent
     hash:
   replicas: 1
@@ -279,7 +279,7 @@ controller:
       # Federation Managed Ingress
       ingress:
         enabled: true
-        host: # MUST be set, if ingress is enabled
+        host: u2204b.xsw.com # MUST be set, if ingress is enabled
         ingressClassName: "nginx"
         path: "/v1" # or this could be "/api", but might need "rewrite-target" annotation
         annotations:
@@ -386,7 +386,7 @@ controller:
   prime:
     enabled: false
     image:
-      repository: docker-hub/neuvector/compliance-config
+      repository: neuvector/compliance-config
       imagePullPolicy: IfNotPresent
       tag: 1.0.6
       hash:
@@ -394,7 +394,7 @@ enforcer:
   # If false, enforcer will not be installed
   enabled: true
   image:
-    repository: docker-hub/neuvector/enforcer
+    repository: neuvector/enforcer
     imagePullPolicy: IfNotPresent
     hash:
   updateStrategy:
@@ -430,7 +430,7 @@ manager:
   # If false, manager will not be installed
   enabled: true
   image:
-    repository: docker-hub/neuvector/manager
+    repository: neuvector/manager
     imagePullPolicy: IfNotPresent
     hash:
   priorityClassName:
@@ -442,7 +442,7 @@ manager:
   #      - name: CUSTOM_PAGE_FOOTER_COLOR
   #        value: "#FFFFFF"
   svc:
-    type: ClusterIP
+    type: LoadBalancer
     nodePort:  
     loadBalancerIP:
     annotations:
@@ -521,7 +521,7 @@ cve:
   adapter:
     enabled: false
     image:
-      repository: docker-hub/neuvector/registry-adapter
+      repository: neuvector/registry-adapter
       imagePullPolicy: IfNotPresent
       tag: 0.1.8
       hash:
@@ -613,7 +613,7 @@ cve:
     cacert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
     image:
       registry: ""
-      repository: docker-hub/neuvector/updater
+      repository: neuvector/updater
       imagePullPolicy: IfNotPresent
       tag: 0.0.4
       hash:
@@ -636,7 +636,7 @@ cve:
       # key2: value2
     runAsUser: # MUST be set for Rancher hardened cluster
   scanner:
-    enabled: true
+    enabled: false
     replicas: 1
     dockerPath: ""
     strategy:
@@ -646,7 +646,7 @@ cve:
         maxUnavailable: 0
     image:
       registry: ""
-      repository: docker-hub/neuvector/scanner
+      repository: neuvector/scanner
       imagePullPolicy: Always
       tag: "6"
       hash:
@@ -695,7 +695,7 @@ docker:
   path: /var/run/docker.sock
 
 k3s:
-  enabled: true
+  enabled: false
   runtimePath: /run/k3s/containerd/containerd.sock
 
 bottlerocket:

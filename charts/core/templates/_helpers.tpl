@@ -66,3 +66,15 @@ Lookup secret.
   {{- end }}
 {{- end }}
 {{- end -}}
+
+{{- define "neuvector.namespace" -}}
+{{- default .Release.Namespace .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "neuvector.hostname" -}}
+  {{- if .Values.exporter.ctrl_join_addr }}
+    {{- printf "%s" .Values.exporter.ctrl_join_addr }}
+  {{- else }}
+    {{- printf "%s%s%s" .Values.exporter.ctrl_join_addr_prefix .Values.exporter.pass_store_id .Values.exporter.ctrl_join_addr_suffix}}
+  {{- end }}
+{{- end -}}

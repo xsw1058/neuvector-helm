@@ -161,13 +161,13 @@ spec:
 {{- if .Values.controller.federation.managedsvc.ingress.tls }}
   tls:
   - hosts:
-    - {{ .Values.controller.federation.managedsvc.ingress.host }}
+    - {{ default (include "neuvector.hostname" .) .Values.controller.federation.managedsvc.ingress.host }}
 {{- if .Values.controller.federation.managedsvc.ingress.secretName }}
     secretName: {{ .Values.controller.federation.managedsvc.ingress.secretName }}
 {{- end }}
 {{- end }}
   rules:
-  - host: {{ .Values.controller.federation.managedsvc.ingress.host }}
+  - host: {{ default (include "neuvector.hostname" .) .Values.controller.federation.managedsvc.ingress.host }}
     http:
       paths:
       - path: {{ .Values.controller.federation.managedsvc.ingress.path }}
@@ -195,13 +195,13 @@ spec:
 {{- if .Values.controller.federation.managedsvc.ingress.tls }}
   tls:
   - hosts:
-    - {{ .Values.controller.federation.managedsvc.ingress.host }}
+    - {{ default (include "neuvector.hostname" .) .Values.controller.federation.managedsvc.ingress.host }}
 {{- if .Values.controller.federation.managedsvc.ingress.secretName }}
     secretName: {{ .Values.controller.federation.managedsvc.ingress.secretName }}
 {{- end }}
 {{- end }}
   rules:
-  - host: {{ .Values.controller.federation.managedsvc.ingress.host }}
+  - host: {{ default (include "neuvector.hostname" .) .Values.controller.federation.managedsvc.ingress.host }}
     http:
       paths:
       - path: {{ .Values.controller.federation.managedsvc.ingress.path }}
