@@ -1,7 +1,7 @@
-name: neuvector-core
+name: neuvector-autojoin
 apiVersion: v1
 version: v2.8.7
-appVersion: 5.4.5
+appVersion: v0.0.1
 description: Helm chart for NeuVector's core services
 home: https://neuvector.com
 icon: https://avatars2.githubusercontent.com/u/19367275?s=200&v=4

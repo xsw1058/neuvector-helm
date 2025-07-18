@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into the templates.
 
-registry: harbor.mcdchina.net
+registry: docker.io
 oem: ''
 leastPrivilege: false
 
@@ -10,7 +10,7 @@ exporter:
   # If false, exporter will not be installed
   enabled: true
   image:
-    repository: docker-hub/neuvector/prometheus-exporter
+    repository: neuvector/prometheus-exporter
     imagePullPolicy: IfNotPresent
     tag: 1.0.6
   # changes this to a readonly user !
@@ -34,14 +34,14 @@ exporter:
       # service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "apps-subnet"
 
   grafanaDashboard:
-    enabled: false
+    enabled: true
     namespace: "" # Release namespace, if empty
     labels: {}
     # annotations: {}
       # k8s-sidecar-target-directory: /tmp/dashboards/neuvector
 
   serviceMonitor:
-    enabled: false
+    enabled: true
     # labels for the ServiceMonitor.
     labels: {}
     # annotations for the ServiceMonitor.

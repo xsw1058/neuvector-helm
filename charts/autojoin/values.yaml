@@ -1,0 +1,30 @@
+# Default values for neuvector.
+# This is a YAML-formatted file.
+# Declare variables to be passed into the templates.
+registry: harbor.mcdchina.net
+image:
+  repository: mcd-public/neuvector/auto-join
+  imagePullPolicy: IfNotPresent
+  tag: v0.0.2
+ctrlSecretName: neuvector-admin
+apiSvc: neuvector-svc-controller:10443
+pass_store_id: ${PAAS_STORE_ID}
+ctrl_join_addr_prefix: "cn-wukong-"
+ctrl_join_addr_suffix: ".mcd.store"
+ctrl_join_addr: 'cn-wukong-rke-uat01.mcd.cloud'
+schedule: ""
+concurrencyPolicy: 
+podLabels: {}
+securityContext: {}
+containerSecurityContext: {}
+# env: []
+env: 
+- name: JOIN_TOKEN
+  value: eyJzIjoidTIyMDRhLnhzdy5jb20iLCJwIjo0NDMsInQiOiJFWWxqRk0vbDJpellHRmtoTklERXkxc1MwQklJcnRKdmpERUNWQjB5UUE5SFRIYjI5UzNXRVFabFdLVHJ1eDQ9In0=
+- name: JOIN_TOKEN_URL
+  value: https://neuvector-wk-test.mcdchina.net/join_token
+- name: CTRL_JOIN_PORT
+  value: "443"
+- name: JOIN_INTERVAL
+  value: "30"
+

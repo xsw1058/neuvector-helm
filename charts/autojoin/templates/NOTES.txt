@@ -1,0 +1,8 @@
+NOTE: create cronjob auto-join-pod-{{ .Release.Name }} success.
+{{- if .Values.schedule }}
+{{ printf "schedule: %v, detail:" .Values.schedule }}
+{{- else }}
+{{ printf "schedule is random. detail:" }}
+{{- end }}
+  kubectl get cronjobs --namespace {{ .Release.Namespace }} auto-join-pod-{{ .Release.Name }}
+

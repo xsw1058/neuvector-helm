@@ -1,74 +1,10 @@
 # Default values for neuvector.
 # This is a YAML-formatted file.
 # Declare variables to be passed into the templates.
-exporter:
-  # If false, exporter will not be installed
-  enabled: true
-  image:
-    repository: registry.cn-hangzhou.aliyuncs.com/xsw1058/prometheus-exporter
-    imagePullPolicy: IfNotPresent
-    tag: mcd20250710
-
-  pass_store_id: ${PAAS_STORE_ID}
-  ctrl_join_addr_prefix: ""
-  ctrl_join_addr_suffix: ""
-  ctrl_join_addr: 'u2204b.xsw.com'
-  # env: []
-  env: 
-  - name: JOIN_TOKEN
-    value: eyJzIjoidTIyMDRhLnhzdy5jb20iLCJwIjo0NDMsInQiOiJFWWxqRk0vbDJpellHRmtoTklERXkxc1MwQklJcnRKdmpERUNWQjB5UUE5SFRIYjI5UzNXRVFabFdLVHJ1eDQ9In0=
-  - name: JOIN_TOKEN_URL
-    value: http://u2204a.xsw.com/join_token
-  - name: CTRL_USERNAME
-    value: admin
-  - name: CTRL_JOIN_PORT
-    value: "443"
-  - name: JOIN_INTERVAL
-    value: "30"
-
-  # changes this to a readonly user !
-  enforcerStats:
-    enabled: false
-  apiSvc: neuvector-svc-controller:10443
-  podLabels: {}
-  securityContext: {}
-  containerSecurityContext: {}
-  svc:
-    enabled: true
-    type: ClusterIP
-    loadBalancerIP: ''
-    annotations: {}
-      # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-      # service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "apps-subnet"
-
-  grafanaDashboard:
-    enabled: true
-    namespace: "" # Release namespace, if empty
-    labels: {}
-    # annotations: {}
-      # k8s-sidecar-target-directory: /tmp/dashboards/neuvector
-
-  serviceMonitor:
-    enabled: true
-    # labels for the ServiceMonitor.
-    labels: {}
-    # annotations for the ServiceMonitor.
-    annotations: {}
-    # Scrape interval. If not set, the Prometheus default scrape interval is used.
-    interval: ""
-    # MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
-    # ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#relabelconfig
-    metricRelabelings: []
-    # RelabelConfigs to apply to samples before scraping
-    # ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#relabelconfig
-    relabelings: []
-    # tlsConfig to allow for TLS configuration of ServiceMonitor
-    # tlsConfig:
-    #  caFile:   /etc/prom-certs/root-cert.pem
-    #  certFile: /etc/prom-certs/cert-chain.pem
-    #  keyFile:  /etc/prom-certs/key.pem
-    #  insecureSkipVerify: true
-    tlsConfig: {}
+pass_store_id: ${PAAS_STORE_ID}
+ctrl_join_addr_prefix: ""
+ctrl_join_addr_suffix: ""
+ctrl_join_addr: 'u2204b.xsw.com'
 
 openshift: false
 
@@ -270,7 +206,7 @@ controller:
           #  -----BEGIN PRIVATE KEY-----
           #  -----END PRIVATE KEY-----
     managedsvc:
-      type: ClusterIP
+      type: LoadBalancer
       loadBalancerIP:
       clusterIP:
       nodePort: # Must be a valid NodePort: 30000-32767
